@@ -7,7 +7,8 @@ import requests
 # Internal usage
 import os
 import datetime
-import streamlit
+import streamlit as st
+
 
 yourHFtoken = "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"
 # Only HuggingFace Hub Inferences
@@ -28,7 +29,7 @@ def imageToText(url):
     print(text)
     return text
 
-basetext = imageToText("./photo.jpeg")
+
 
 
 def Text2Image(text):
@@ -37,7 +38,7 @@ def Text2Image(text):
   image = client.text_to_image(text)
   image.save("yourimage.png")
 
-myiimage = Text2Image("An astronaut riding a horse on the moon.")
+#myiimage = Text2Image("An astronaut riding a horse on the moon.")
 
 
 def  text2speech(text):
@@ -49,11 +50,10 @@ def  text2speech(text):
       "inputs" : text
   }
   response = requests.post(API_URL, headers=headers, json=payloads)
-  with open('audio.flac', 'wb') as file:
+  with open('audiostory.flac', 'wb') as file:
     file.write(response.content)
 
-mytext = "So let's create a function for our text-to-speech generation with the requests method"
-text2speech(mytext)
+
 
 
 def generation(question):
@@ -69,8 +69,6 @@ def generation(question):
   llm_chain = LLMChain(prompt=prompt, llm=llm)
   print(llm_chain.run(question))
 
-question = "Who won the FIFA World Cup in the year 1994? "
-generation(question)
 
 
 def summary(text):
@@ -85,11 +83,6 @@ def summary(text):
   summary = chain.run(docs)
   return summary
 
-
-mystrangeText = """What I am going to tell you now is a real tip: you cannot do all the inferences with the API token alone.
-I know, looks like I messed up with you… But I didn't. There is a way for everything and I have you covered (for what you usually cannot do) in the next section.
-So Hugging Face API inference and its Transformers library are our gateway to all the Large Language Models."""
-summary(mystrangeText)
 
 
 
@@ -117,64 +110,35 @@ def LC_TextGeneration(model, basetext):
     return story
 
 
-# Variable and Inference to HF with LangChain
-basetext = "a couple walking on the beach"
-secondtext = "A man and a dog"
+
+def main():
+
+  st.set_page_config(page_title="Your Photo Story Creatror App", page_icon='📱')
+
+  st.header("Turn your Photos into Amazing Audio Stories")
+  
+  image_file = st.file_uploader("Choose an image...", type='jpg')
+  if image_file is not None:
+    print(image_file)
+    bytes_data = image_file.getvalue()
+    with open(image_file.name, "wb") as file:
+      file.write(bytes_data)
+    st.image(image_file, caption="Uploaded Image...",
+             use_column_width=True)
+    
+    basetext = imageToText(image_file)
+    mystory = LC_TextGeneration(model_TextGeneration, basetext)
+    finalstory = mystory.split('\n\n')[0]
+    text2speech(finalstory)
+    
+    with st.expander("Photo Description"):
+      st.write(basetext)
+    with st.expander("Photo Story"):
+      st.write(finalstory)
+    
+    st.audio('audiostory.flac')
 
 
-mystory = LC_TextGeneration(model_TextGeneration, basetext)
-print("="*50)
-finalstory = mystory.split('\n\n')[0]
-print(finalstory)
 
-
-#togethercomputer/RedPajama-INCITE-Instruct-3B-v1
-
-"""
-template = <human>: write a short story in two paraghraphs about {basetext}.
-    <bot>:
-Paragraph 1:
-
-The beach was empty.
-
-The couple walked along the shore, hand in hand.
-
-The sun was shining, and the sky was blue.
-
-The sand was warm under their feet.
-
-The waves lapped gently against the shore.
-
-The couple smiled at each other.
-
-Paragraph 2:
-
-They walked for hours,
-talking about their lives and their hopes and dreams.
-
-The sky began to turn dark,
-###############three paraghraphs #############
-Paragraph 1:
-
-The beach was empty.
-
-The couple walked along the sand,
-holding hands,
-looking out at the ocean.
-
-Paragraph 2:
-
-The sun was setting,
-casting a warm glow
-on the water and the sky.
-
-The couple sat down on a rock,
-and leaned against each other,
-looking out at the horizon.
-
-Paragraph 3:
-
-The sky turned pink,
-and the sun dipped below the horizon
-"""
-
+if __name__ == '__main__':
+   main()
