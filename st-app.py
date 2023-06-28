@@ -116,6 +116,8 @@ def main():
   st.set_page_config(page_title="Your Photo Story Creatror App", page_icon='📱')
 
   st.header("Turn your Photos into Amazing Audio Stories")
+  st.divider()
+  st.header("🖼️ --> 🏰 --> 📻")
   
   image_file = st.file_uploader("Choose an image...", type='jpg')
   if image_file is not None:
@@ -126,18 +128,25 @@ def main():
     st.image(image_file, caption="Uploaded Image...",
              use_column_width=True)
     
+    st.warning("Generating Photo description",  icon="🤖")
     basetext = imageToText(image_file)
+    with st.expander("Photo Description"):
+      st.write(basetext)    
+    st.warning("Generating Photo Story",  icon="🤖")
     mystory = LC_TextGeneration(model_TextGeneration, basetext)
     finalstory = mystory.split('\n\n')[0]
+    with st.expander("Photo Story"):
+      st.write(finalstory)    
+    st.warning("Generating Audio Story",  icon="🤖")
     text2speech(finalstory)
     
-    with st.expander("Photo Description"):
-      st.write(basetext)
-    with st.expander("Photo Story"):
-      st.write(finalstory)
+    #with st.expander("Photo Description"):
+    #  st.write(basetext)
+    #with st.expander("Photo Story"):
+    #  st.write(finalstory)
     
     st.audio('audiostory.flac')
-
+    st.success("Audio Story completed!")
 
 
 if __name__ == '__main__':
