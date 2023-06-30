@@ -116,9 +116,10 @@ def main():
   st.set_page_config(page_title="Your Photo Story Creatror App", page_icon='📱')
 
   st.header("Turn your Photos into Amazing Audio Stories")
-  st.divider()
-  st.header("🖼️ --> 🏰 --> 📻")
+  st.image('banner.png', use_column_width=True)
+  st.markdown("1. Select a photo from your pc\n 2. AI detect the photo description\n3. AI write a story about the photo\n4. AI generate an audio file of the story")
   
+  # test with Image by <a href="https://pixabay.com/users/michelle_maria-165491/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7091934">Michelle Raponi</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7091934">Pixabay</a>
   image_file = st.file_uploader("Choose an image...", type='jpg')
   if image_file is not None:
     print(image_file)

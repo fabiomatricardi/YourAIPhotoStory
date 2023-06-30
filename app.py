@@ -1,5 +1,3 @@
-# Python app for HuggingFace Inferences
-# Only API Access token from Huggingface.co
 # libraries for AI inferences
 from huggingface_hub import InferenceClient
 from langchain import HuggingFaceHub
@@ -10,8 +8,8 @@ import datetime
 import streamlit
 
 yourHFtoken = "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"
-# Only HuggingFace Hub Inferences
 
+# Only HuggingFace Hub Inferences
 model_TextGeneration="togethercomputer/RedPajama-INCITE-Chat-3B-v1"
 model_Image2Text = "Salesforce/blip-image-captioning-base"
 model_Text2Image="runwayml/stable-diffusion-v1-5"
