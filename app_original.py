@@ -7,7 +7,7 @@ import os
 import datetime
 import streamlit
 
-yourHFtoken = "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"
+yourHFtoken = "hf_xxxxxx"
 
 # Only HuggingFace Hub Inferences
 model_TextGeneration="togethercomputer/RedPajama-INCITE-Chat-3B-v1"
@@ -95,7 +95,7 @@ summary(mystrangeText)
 # Langchain to HuggingFace Inferences
 def LC_TextGeneration(model, basetext):
     from langchain import PromptTemplate, LLMChain
-    os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
+    os.environ["HUGGINGFACEHUB_API_TOKEN"] = "hf_xxxxxxxx"
     #llm = HuggingFaceHub(repo_id=model , model_kwargs={"temperature":0.45,"min_length":40, "max_length":130})
     llm = HuggingFaceHub(repo_id=model , model_kwargs={"temperature":0.45,"min_length":30, "max_length":250})
     print(f"Running repo: {model}")    
