@@ -1,12 +1,12 @@
 from transformers import pipeline
 from transformers import AutoModel
 from huggingface_hub import InferenceClient
-client = InferenceClient(token="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")
+client = InferenceClient(token="hf_xxxxxxxxx")
 from langchain import HuggingFaceHub
 import os
 import datetime
 
-os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
+os.environ["HUGGINGFACEHUB_API_TOKEN"] = "hf_xxxxxxxxxxx"
 LaMini = "MBZUAI/LaMini-Flan-T5-248M" #model_TextGeneration # "OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5"
 # other models no success   openlm-research/open_llama_3b  EleutherAI/pythia-1.4b-deduped eachadea/vicuna-7b-1.1  TheBloke/vicuna-7B-1.1-HF 
 # succe models  EleutherAI/pythia-2.8b  EleutherAI/gpt-neo-1.3B  togethercomputer/GPT-JT-6B-v1  
